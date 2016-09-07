@@ -1,4 +1,7 @@
-# Pokemon Go Slack Notify
+# Pokemon Go Query
+
+Pokemon go query support two mode, slack notification or facebook chatbot.
+inspired by [Go Radar](https://map.goradar.io/) and [Go Notify](https://itunes.apple.com/tw/app/go-notify-get-real-time-notification/id1145779376?mt=8).
 
 # Usage
 

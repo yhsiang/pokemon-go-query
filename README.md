@@ -1,13 +1,13 @@
 # Pokemon Go Query
 
-Pokemon go query support two mode, slack notification or facebook chatbot.
-inspired by [Go Radar](https://map.goradar.io/) and [Go Notify](https://itunes.apple.com/tw/app/go-notify-get-real-time-notification/id1145779376?mt=8).
+Pokemon Go Query offer you to be a slack notification or a facebook chatbot.
+Inspired by [Go Radar](https://map.goradar.io/) and [Go Notify](https://itunes.apple.com/tw/app/go-notify-get-real-time-notification/id1145779376?mt=8).
 
 # Usage
 
-require [nodejs](https://nodejs.org/en/)
+Require [nodejs](https://nodejs.org/en/).
 
-First, `$ npm install`
+First, `npm install`.
 
 ## Slack Notify
 
@@ -23,7 +23,7 @@ $ npm run slack
 
 ## Facebook bot
 
-require [localtunnel](https://localtunnel.github.io/www/)
+Require [localtunnel](https://localtunnel.github.io/www/).
 
 1. create facebook app for page
 2. add messenger to products

@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import request from "request-promise";
-import { query } from "./notify";
+import { query } from "./goradar";
 
 const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.TOKEN;

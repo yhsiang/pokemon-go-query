@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js"
+    "start": "babel-node server.js",
+    "slack": "babel-node slack.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ly Cheng <lyforever62@hotmail.com>",
+  "license": "MIT",
   "dependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.14.0",

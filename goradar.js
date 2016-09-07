@@ -7,20 +7,6 @@ import moment from "moment";
 
 const GoRadarURL = "https://www.pokeradar.io/api/v1/submissions"
 
-function notify(text) {
-  const payload = {
-    channel: "#pokemon",
-    username: "PokemonBot",
-    text: "```" + text + "```",
-  };
-
-  request({
-    method: 'POST',
-    uri: process.env.SLACK_URL,
-    form: { payload: `${JSON.stringify(payload)}` },
-  }).then(console.log);
-}
-
 export function query(location, distance, cb) {
   const [min, max] = geolib.getBoundsOfDistance(location, distance);
   const params = {

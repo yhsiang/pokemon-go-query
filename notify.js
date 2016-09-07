@@ -42,7 +42,7 @@ request(`${GoRadarURL}?${stringify(params)}`)
         .map(({ created, pokemonId, latitude, longitude }) => ({
           pokemon: pokemon.getName(pokemonId, "zh-Hant"),
           dist: geolib.getDistance(myLocation, { latitude, longitude }),
-          remain: 15 - moment().diff(created * 1000, 'minutes'),
+          remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
         }))
         .sort((a, b) => a.dist - b.dist)
         .map(({ pokemon, dist, remain }) => `${pokemon} 距離 ${dist} 公尺，剩下 ${remain} 分鐘`)

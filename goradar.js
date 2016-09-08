@@ -21,16 +21,19 @@ export function query(location, distance, cb) {
   request(`${GoRadarURL}?${stringify(params)}`)
     .then(res => {
       const { data }= JSON.parse(res);
-      const message =
+      const pokemons =
         data
           .map(({ created, pokemonId, latitude, longitude }) => ({
+            id: pokemonId,
+            lat: latitude,
+            long: longitude,
             pokemon: pokemon.getName(pokemonId, "zh-Hant"),
             dist: geolib.getDistance(location, { latitude, longitude }),
             remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
           }))
           .sort((a, b) => a.dist - b.dist)
-          .map(({ pokemon, dist, remain }) => `${pokemon} 距離 ${dist} 公尺，剩下 ${remain} 分鐘`)
-          .join("\n");
-      cb(message);
+          .slice(0, 5);
+
+      cb(pokemons);
     });
 }

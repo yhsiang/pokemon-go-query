@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js",
+    "start": "nodemon --exec babel-node --presets=es2015,stage-0 -- server.js",
     "slack": "babel-node slack.js"
   },
   "author": "Ly Cheng <lyforever62@hotmail.com>",
@@ -19,6 +19,7 @@
     "express": "^4.14.0",
     "geolib": "^2.0.21",
     "moment": "^2.14.1",
+    "nodemon": "^1.10.2",
     "pokemon": "^0.7.0",
     "querystring": "^0.2.0",
     "request-promise": "^4.1.1"

@@ -5,9 +5,9 @@ import geolib from "geolib";
 import moment from "moment";
 
 
-const GoRadarURL = "https://www.pokeradar.io/api/v1/submissions"
+const PokeRadarURL = "https://www.pokeradar.io/api/v1/submissions"
 
-export function query(location, distance, cb) {
+export function query(location, distance) {
   const [min, max] = geolib.getBoundsOfDistance(location, distance);
   const params = {
     minLatitude: min.latitude,
@@ -16,19 +16,20 @@ export function query(location, distance, cb) {
     maxLongitude: max.longitude,
     pokemonId: 0,
   }
-  console.log(`-- curl ${GoRadarURL}?${stringify(params)} --`);
+  console.log(`-- curl "${PokeRadarURL }?${stringify(params)}" --`);
 
-  request(`${GoRadarURL}?${stringify(params)}`)
+  return request(`${PokeRadarURL}?${stringify(params)}`)
     .then(res => {
       const { data }= JSON.parse(res);
       const pokemons =
         data
-          .map(({ created, pokemonId, latitude, longitude, trainerName }) => {
+          .map(({ id, created, pokemonId, latitude, longitude, trainerName }) => {
             let name = pokemon.getName(pokemonId, "zh-Hant");
             if (!trainerName.match(/Poke\ Radar\ Prediction/)) {
               name += "(玩家回報)"
             }
             return {
+              uuid: id,
               id: pokemonId,
               lat: latitude,
               long: longitude,
@@ -39,6 +40,6 @@ export function query(location, distance, cb) {
           })
           .sort((a, b) => a.dist - b.dist)
 
-      cb(pokemons);
+      return pokemons;
     });
 }

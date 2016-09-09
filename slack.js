@@ -1,5 +1,7 @@
-import { query } from "./pokeradar";
+import * as pokeradar from "./pokeradar";
+import * as pkget from "./pkget";
 import request from "request-promise";
+import Promise from "bluebird";
 
 function notify(text) {
   const payload = {
@@ -32,13 +34,29 @@ const ids = [
   141, 143, 149
 ];
 
-const execute = () =>
-  query({ latitude, longitude }, distance, pokemons => {
+const reported = [];
+
+const execute = () => {
+  Promise.all(
+    pokeradar.query({ latitude, longitude }, distance),
+    pkget.query({ latitude, longitude }, distance)
+  ).then(results => {
+    const pokemons = results.reduce((acc, cur) => {
+      acc = acc.concat(cur);
+      return acc;
+    },[])
+
     const filtered = pokemons.filter(({ id }) => ids.indexOf(id) > -1)
     if (filtered.length > 0) {
-      filtered.map(toText).map(notify);
+      filtered.map(toText).map(it => {
+        if (reported.indexOf(it.uuid) === -1) {
+          reported.push(it.uuid);
+          notify(it);
+        }
+      });
     }
     setTimeout(() => execute(), 5 * 60 * 1000);
   })
+}
 
 execute();

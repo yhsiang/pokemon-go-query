@@ -19,7 +19,7 @@ function notify(text) {
 
 const latitude = process.env.LAT || 25.032101;
 const longitude = process.env.LNT || 121.5556329;
-const distance = process.env.DIST || 1200;
+const distance = process.env.DIST || 729;
 
 function toText({ lat, long, pokemon, id, remain, dist }) {
   const imageURL = `https://maps.googleapis.com/maps/api/staticmap?size=640x400&sensor=false&center=${latitude},${longitude}&markers=${lat},${long}&maptype=roadmap.jpg`;
@@ -27,35 +27,31 @@ function toText({ lat, long, pokemon, id, remain, dist }) {
 }
 
 const ids = [
-    6,  38,  59,  65,  67,  68,
+    6,  25,  38,  59,  65,  67, 68,
    78,  82,  87,  89,  91,  94,
    97, 101, 105, 110, 113, 131,
   134, 135, 136, 137, 139, 142,
   141, 143, 149
 ];
 
-const reported = [];
-
 const execute = () => {
-  Promise.all(
+  Promise.all([
     pokeradar.query({ latitude, longitude }, distance),
     pkget.query({ latitude, longitude }, distance)
-  ).then(results => {
+  ]).then(results => {
     const pokemons = results.reduce((acc, cur) => {
       acc = acc.concat(cur);
       return acc;
     },[])
 
+    console.log(pokemons.map(it=>it.pokemon).join(' '))
     const filtered = pokemons.filter(({ id }) => ids.indexOf(id) > -1)
     if (filtered.length > 0) {
       filtered.map(toText).map(it => {
-        if (reported.indexOf(it.uuid) === -1) {
-          reported.push(it.uuid);
-          notify(it);
-        }
+        notify(it);
       });
     }
-    setTimeout(() => execute(), 5 * 60 * 1000);
+    setTimeout(() => execute(), 15 * 60 * 1000);
   })
 }
 

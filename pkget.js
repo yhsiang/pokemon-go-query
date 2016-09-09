@@ -16,7 +16,7 @@ export function query(location, distance) {
     v5: min.longitude,
   };
 
-  console.log(`-- curl "${PkgetURL}?${stringify(params)}" --`);
+  console.log(`-- curl "${PkgetURL}?${stringify(params)}" -H "X-Requested-With: XMLHttpRequest" -H "Referer: https://pkget.com/" --`);
 
   return request({
     url: `${PkgetURL}?${stringify(params)}`,
@@ -45,6 +45,7 @@ export function query(location, distance) {
             };
           })
           .sort((a, b) => a.dist - b.dist);
+
       return pokemons;
     })
 }

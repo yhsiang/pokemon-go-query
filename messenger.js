@@ -19,12 +19,12 @@ export function sendTextMessage(sender, text) {
     .catch(error => console.log('Error sending messages: ', error))
 }
 
-function toMarker({ lat, long, pokemon, id, remain }) {
+function toMarker({ lat, long, pokemon, id, remain, dist }) {
   const imageURL = `https://maps.googleapis.com/maps/api/staticmap?size=764x400&center=${lat},${long}&zoom=18&markers=${lat},${long}`;
   const itemURL = `http://maps.apple.com/maps?q=${lat},${long}&z=16`;
 
   return {
-    "title": `${pokemon}的位置，剩下時間 ${remain}`,
+    "title": `${pokemon}的位置，距離 ${dist} 公尺，剩下時間 ${remain}`,
     "image_url": imageURL,
     "item_url": itemURL,
   };

@@ -23,7 +23,7 @@ $ npm run slack
 
 ## Facebook bot
 
-Require [localtunnel](https://localtunnel.github.io/www/).
+Require [ngrok](https://ngrok.com/).
 
 1. create facebook app for page
 2. add messenger to products
@@ -41,7 +41,7 @@ More information:
 * [Facebook Messenger bot 15 minute tutorial](https://github.com/jw84/messenger-bot-tutorial)
 * [[教學] Facebook Messenger API](http://huli.logdown.com/posts/709641-teaching-facebook-messenger-api)
 * [用 Python 開發 Facebook Bot](http://www.inside.com.tw/2016/05/17/build-a-facebook-bot-with-python)
-
+* [[教學] Line BOT API](http://huli.logdown.com/posts/726082-line-bot-api-tutorial)
 
 # LICENSE
 

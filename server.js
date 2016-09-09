@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { sendMapMessage } from "./messenger";
+import { sendTextMessage, sendLocationMessage } from "./line-bot";
 import { query } from "./goradar";
 
 const PORT = process.env.PORT || 3000;
@@ -41,5 +42,22 @@ app.post('/webhook', function (req, res) {
   }
   res.sendStatus(200)
 })
+
+app.post('/callback', (req, res) => {
+  const result = req.body.result;
+  for(let i=0; i<result.length; i++){
+    const data = result[i]['content'];
+    console.log('receive: ', data);
+    if (data.location) {
+      query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000, pokemons => {
+        sendLocationMessage(data.from, pokemons);
+      })
+    } else {
+      sendTextMessage(data.from, "請使用手機傳位置訊息給我。");
+    }
+  }
+  res.sendStatus(200);
+
+});
 
 app.listen(PORT, () => console.log(`Server listen on ${PORT}`));

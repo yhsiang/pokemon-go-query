@@ -1,7 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { sendMapMessage } from "./messenger";
-import { sendTextMessage, sendLocationMessage } from "./line-bot";
+import * as line from "./line-bot";
+import * as fb from "./messenger";
 import { query } from "./goradar";
 
 const PORT = process.env.PORT || 3000;
@@ -33,10 +34,16 @@ app.post('/webhook', function (req, res) {
   for (let i = 0; i < messaging_events.length; i++) {
       let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
+      if (event.message && event.message.text && event.message.text.match(/美國白宮/)) {
+        fb.sendTextMessage(sender, "你是李琳山的學生對不對？:p");
+      }
+      if (event.message && event.message.text) {
+        fb.sendTextMessage(sender, "請用手機傳位置訊息給我。");
+      }
       if (event.message && event.message.attachments && event.message.attachments[0].payload.coordinates) {
         let {lat, long} = event.message.attachments[0].payload.coordinates;
         query({latitude: lat, longitude: long}, 1000, pokemons => {
-          sendMapMessage(sender, pokemons);
+          fb.sendMapMessage(sender, pokemons);
         })
       }
   }
@@ -50,10 +57,10 @@ app.post('/callback', (req, res) => {
     console.log('receive: ', data);
     if (data.location) {
       query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000, pokemons => {
-        sendLocationMessage(data.from, pokemons);
+        line.sendLocationMessage(data.from, pokemons);
       })
     } else {
-      sendTextMessage(data.from, "請使用手機傳位置訊息給我。");
+      line.sendTextMessage(data.from, "請使用手機傳位置訊息給我。");
     }
   }
   res.sendStatus(200);

@@ -1,7 +1,8 @@
 # Pokemon Go Query
 
 Pokemon Go Query offer you to be a slack notification or a facebook chatbot.
-Inspired by [Poke Radar](https://www.pokemonradargo.com) and [Go Notify](https://itunes.apple.com/tw/app/go-notify-get-real-time-notification/id1145779376?mt=8).
+Inspired by [Go Notify](https://itunes.apple.com/tw/app/go-notify-get-real-time-notification/id1145779376?mt=8).
+Data from [Poke Radar](https://www.pokemonradargo.com) and [Pkget](https://pkget.com/).
 
 # Usage
 

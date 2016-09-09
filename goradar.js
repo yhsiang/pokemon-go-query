@@ -32,7 +32,6 @@ export function query(location, distance, cb) {
             remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
           }))
           .sort((a, b) => a.dist - b.dist)
-          .slice(0, 5);
 
       cb(pokemons);
     });

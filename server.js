@@ -34,16 +34,25 @@ app.post('/webhook', function (req, res) {
   for (let i = 0; i < messaging_events.length; i++) {
       let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
+      if (event.message && event.message.is_echo) continue;
+      if (event.message && event.message.text && event.message.text.match(/ob\'\_\'ov/)) {
+        fb.sendTextMessage(sender, "母豬母豬，夜裡哭哭。");
+        continue;
+      }
       if (event.message && event.message.text && event.message.text.match(/美國白宮/)) {
         fb.sendTextMessage(sender, "你是李琳山的學生對不對？:p");
+        continue;
       }
       if (event.message && event.message.text) {
         fb.sendTextMessage(sender, "請用手機傳位置訊息給我。");
+        continue;
       }
-      if (event.message && event.message.attachments && event.message.attachments[0].payload.coordinates) {
+      if (event.message && event.message.attachments && event.message.attachments[0].payload) {
+        if (!event.message.attachments[0].payload.coordinates) continue;
         let {lat, long} = event.message.attachments[0].payload.coordinates;
         query({latitude: lat, longitude: long}, 1000, pokemons => {
-          fb.sendMapMessage(sender, pokemons);
+          if (pokemons.length === 0) fb.sendTextMessage(sender, "附近沒有，哭哭");
+          else fb.sendMapMessage(sender, pokemons);
         })
       }
   }

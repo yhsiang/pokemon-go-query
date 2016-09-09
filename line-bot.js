@@ -58,7 +58,7 @@ export function sendLocationMessage(sender, pokemons) {
     eventType: "140177271400161403",//"138311608800106203",
     content: {
       messageNotified: 0,
-      messages: pokemons.map(toMarker),
+      messages: pokemons.slice(0, 5).map(toMarker),
     }
   };
 

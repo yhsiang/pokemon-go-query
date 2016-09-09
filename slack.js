@@ -1,4 +1,4 @@
-import { query } from "./goradar";
+import { query } from "./pokeradar";
 import request from "request-promise";
 
 function notify(text) {

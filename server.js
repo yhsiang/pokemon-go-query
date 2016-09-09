@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import { sendMapMessage } from "./messenger";
 import * as line from "./line-bot";
 import * as fb from "./messenger";
-import { query } from "./goradar";
+import { query } from "./pokeradar";
 
 const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.TOKEN;

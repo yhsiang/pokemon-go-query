@@ -34,7 +34,21 @@ Require [ngrok](https://ngrok.com/).
 $ export TOKEN=<FACEBOOK_PAGE_TOKEN>
 $ export PORT=3000
 $ npm start
-$ lt --port 3000
+$ ngrok http 3000
+```
+
+## Line bot
+
+Require [ngrok](https://ngrok.com/).
+
+1. apply line bot developer
+
+Use the same server with facebook bot but different endpoint.
+
+```
+$ export CHANNEL_ID=<CHANNEL_ID>
+$ export CHANNEL_SECRET=<CHANNEL_SECRET>
+$ export MID=<MID>
 ```
 
 More information:

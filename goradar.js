@@ -23,14 +23,20 @@ export function query(location, distance, cb) {
       const { data }= JSON.parse(res);
       const pokemons =
         data
-          .map(({ created, pokemonId, latitude, longitude }) => ({
-            id: pokemonId,
-            lat: latitude,
-            long: longitude,
-            pokemon: pokemon.getName(pokemonId, "zh-Hant"),
-            dist: geolib.getDistance(location, { latitude, longitude }),
-            remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
-          }))
+          .map(({ created, pokemonId, latitude, longitude, trainerName }) => {
+            let name = pokemon.getName(pokemonId, "zh-Hant");
+            if (!trainerName.match(/Poke\ Radar\ Prediction/)) {
+              name += "(玩家回報)"
+            }
+            return {
+              id: pokemonId,
+              lat: latitude,
+              long: longitude,
+              pokemon: name,
+              dist: geolib.getDistance(location, { latitude, longitude }),
+              remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
+            };
+          })
           .sort((a, b) => a.dist - b.dist)
 
       cb(pokemons);

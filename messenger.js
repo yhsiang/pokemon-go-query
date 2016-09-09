@@ -31,7 +31,7 @@ function toMarker({ lat, long, pokemon, id, remain, dist }) {
 }
 
 export function sendMapMessage(id, pokemons) {
-  const elements = pokemons.map(toMarker);
+  const elements = pokemons.slice(0, 5).map(toMarker);
   const messageData = {
     "attachment": {
       "type": "template",

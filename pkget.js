@@ -40,6 +40,7 @@ export function query(location, distance) {
               lat: latitude,
               long: longitude,
               pokemon: name,
+              type: 'pkget',
               dist: geolib.getDistance(location, { latitude, longitude }),
               remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
             };
@@ -49,5 +50,3 @@ export function query(location, distance) {
       return pokemons;
     })
 }
-
-// query({ latitude: 25.0343018, longitude: 121.5605305}, 1000)

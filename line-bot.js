@@ -51,6 +51,8 @@ function toMarker({ lat, long, pokemon, id, dist, remain }) {
   };
 }
 
+const ids = [10, 13, 16, 19];
+
 export function sendLocationMessage(sender, pokemons) {
   const data = {
     to: [sender],
@@ -58,7 +60,11 @@ export function sendLocationMessage(sender, pokemons) {
     eventType: "140177271400161403",//"138311608800106203",
     content: {
       messageNotified: 0,
-      messages: pokemons.slice(0, 5).map(toMarker),
+      messages:
+        pokemons
+          .filter(id => ids.indexOf(id) === -1)
+          .slice(0, 5)
+          .map(toMarker),
     }
   };
 

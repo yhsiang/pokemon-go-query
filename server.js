@@ -9,6 +9,7 @@ import Promise from "bluebird";
 
 const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.TOKEN;
+const DIST = process.env.DIST || 800;
 const app = express();
 
 
@@ -53,11 +54,10 @@ app.post('/webhook', function (req, res) {
         if (!event.message.attachments[0].payload.coordinates) continue;
         let {lat, long} = event.message.attachments[0].payload.coordinates;
 
-        Promise.all(
-          pokeradar.query({latitude: lat, longitude: long}, 1000),
-          pkget.query({latitude: lat, longitude: long}, 1000)
-        ).then(results => {
-          console.log(results);
+        Promise.all([
+          pokeradar.query({latitude: lat, longitude: long}, DIST),
+          pkget.query({latitude: lat, longitude: long}, DIST)
+        ]).then(results => {
           const pokemons = results.reduce((acc, cur) => {
             acc = acc.concat(cur);
             return acc;
@@ -77,10 +77,10 @@ app.post('/callback', (req, res) => {
     const data = result[i]['content'];
     console.log('receive: ', data);
     if (data.location) {
-      Promise.all(
-        pokeradar.query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000),
-        pkget.query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000)
-      ).then(results => {
+      Promise.all([
+        pokeradar.query({latitude: data.location.latitude, longitude: data.location.longitude}, DIST),
+        pkget.query({latitude: data.location.latitude, longitude: data.location.longitude}, DIST)
+      ]).then(results => {
         const pokemons = results.reduce((acc, cur) => {
           acc = acc.concat(cur);
           return acc;

@@ -62,7 +62,7 @@ export function sendLocationMessage(sender, pokemons) {
       messageNotified: 0,
       messages:
         pokemons
-          .filter(id => ids.indexOf(id) === -1)
+          .filter(({ id}) => ids.indexOf(id) === -1)
           .slice(0, 5)
           .map(toMarker),
     }

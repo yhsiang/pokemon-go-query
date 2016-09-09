@@ -35,9 +35,10 @@ const ids = [10, 13, 16, 19];
 export function sendMapMessage(id, pokemons) {
   const elements =
     pokemons
-      .filter(id => ids.indexOf(id) === -1)
+      .filter(({ id }) => ids.indexOf(id) === -1)
       .slice(0, 5)
       .map(toMarker);
+
   const messageData = {
     "attachment": {
       "type": "template",

@@ -3,7 +3,9 @@ import bodyParser from "body-parser";
 import { sendMapMessage } from "./messenger";
 import * as line from "./line-bot";
 import * as fb from "./messenger";
-import { query } from "./pokeradar";
+import * as pokeradar from "./pokeradar";
+import * as pkget from "./pkget";
+import Promise from "bluebird";
 
 const PORT = process.env.PORT || 3000;
 const TOKEN = process.env.TOKEN;
@@ -50,7 +52,17 @@ app.post('/webhook', function (req, res) {
       if (event.message && event.message.attachments && event.message.attachments[0].payload) {
         if (!event.message.attachments[0].payload.coordinates) continue;
         let {lat, long} = event.message.attachments[0].payload.coordinates;
-        query({latitude: lat, longitude: long}, 1000, pokemons => {
+
+        Promise.all(
+          pokeradar.query({latitude: lat, longitude: long}, 1000),
+          pkget.query({latitude: lat, longitude: long}, 1000)
+        ).then(results => {
+          console.log(results);
+          const pokemons = results.reduce((acc, cur) => {
+            acc = acc.concat(cur);
+            return acc;
+          },[])
+
           if (pokemons.length === 0) fb.sendTextMessage(sender, "附近沒有，哭哭");
           else fb.sendMapMessage(sender, pokemons);
         })
@@ -65,8 +77,17 @@ app.post('/callback', (req, res) => {
     const data = result[i]['content'];
     console.log('receive: ', data);
     if (data.location) {
-      query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000, pokemons => {
-        line.sendLocationMessage(data.from, pokemons);
+      Promise.all(
+        pokeradar.query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000),
+        pkget.query({latitude: data.location.latitude, longitude: data.location.longitude}, 1000)
+      ).then(results => {
+        const pokemons = results.reduce((acc, cur) => {
+          acc = acc.concat(cur);
+          return acc;
+        },[])
+
+        if (pokemons.length === 0) line.sendTextMessage(data.from, "附近沒有，哭哭");
+        else line.sendLocationMessage(data.from, pokemons);
       })
     } else {
       line.sendTextMessage(data.from, "請使用手機傳位置訊息給我。");

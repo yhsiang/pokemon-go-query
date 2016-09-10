@@ -21,13 +21,13 @@ const latitude = process.env.LAT || 25.032101;
 const longitude = process.env.LNT || 121.5556329;
 const distance = process.env.DIST || 729;
 
-function toText({ lat, long, pokemon, id, remain, dist }) {
+function toText({ lat, long, pokemon, id, remain, dist, end }) {
   const imageURL = `https://maps.googleapis.com/maps/api/staticmap?size=640x400&sensor=false&center=${latitude},${longitude}&markers=${lat},${long}&maptype=roadmap.jpg`;
-  return `${pokemon}的位置，距離 ${dist} 公尺，剩下時間 ${remain}\n<${imageURL}>`;
+  return `${pokemon}的位置，距離 ${dist} 公尺，剩下時間 ${remain} (${end})\n<${imageURL}>`;
 }
 
 const ids = [
-    6,  25,  38,  58, 59,  65,  67, 68,
+    6,  25,  38,  59,  65,  67, 68,
    78,  82,  87,  89,  91,  94,
    97, 101, 105, 110, 113, 131,
   134, 135, 136, 137, 139, 142,

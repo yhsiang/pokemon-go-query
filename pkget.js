@@ -26,6 +26,7 @@ export function query(location, distance) {
     }
   })
   .then(res => {
+      if (res.match(/^找/)) return [];
       const { pk123 } = JSON.parse(res);
       const now = moment().unix();
       const pokemons =
@@ -44,7 +45,8 @@ export function query(location, distance) {
               pokemon: name,
               type: 'pkget',
               dist: geolib.getDistance(location, { latitude, longitude }),
-              remain:  moment.utc(0).seconds(vanish - now).format('mm:ss')
+              remain:  moment.utc(0).seconds(vanish - now).format('mm:ss'),
+              end: moment(+d3).utc(8).format('HH:mm'),
             };
           })
           .sort((a, b) => a.dist - b.dist);

@@ -38,13 +38,13 @@ export function sendTextMessage(sender, text) {
   .catch(error => console.log('Error sending messages: ', error.message))
 }
 
-function toMarker({ lat, long, pokemon, id, dist, remain }) {
+function toMarker({ lat, long, pokemon, id, dist, remain, end }) {
   return {
     contentType: 7,
     toType: 1,
     text: `${pokemon}`,
     location: {
-      title: `${pokemon}的位置，距離 ${dist} 公尺，剩下時間 ${remain}`,
+      title: `${pokemon}的位置，距離 ${dist} 公尺，剩下時間 ${remain} (${end})`,
       latitude: lat,
       longitude: long
     }

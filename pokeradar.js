@@ -37,6 +37,7 @@ export function query(location, distance) {
               type: 'pokeradar',
               dist: geolib.getDistance(location, { latitude, longitude }),
               remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
+              end: moment.unix(created).utc(8).format('HH:mm'),
             };
           })
           .sort((a, b) => a.dist - b.dist)

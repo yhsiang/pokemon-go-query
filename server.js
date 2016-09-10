@@ -61,7 +61,7 @@ app.post('/webhook', function (req, res) {
           const pokemons = results.reduce((acc, cur) => {
             acc = acc.concat(cur);
             return acc;
-          },[])
+          },[]).filter(it => !it.remain.match(/^00/));
 
           if (pokemons.length === 0) fb.sendTextMessage(sender, "附近沒有，哭哭");
           else fb.sendMapMessage(sender, pokemons);
@@ -84,7 +84,7 @@ app.post('/callback', (req, res) => {
         const pokemons = results.reduce((acc, cur) => {
           acc = acc.concat(cur);
           return acc;
-        },[])
+        },[]).filter(it => !it.remain.match(/^00/));
 
         if (pokemons.length === 0) line.sendTextMessage(data.from, "附近沒有，哭哭");
         else line.sendLocationMessage(data.from, pokemons);

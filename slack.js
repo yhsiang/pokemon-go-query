@@ -27,7 +27,7 @@ function toText({ lat, long, pokemon, id, remain, dist }) {
 }
 
 const ids = [
-    6,  25,  38,  59,  65,  67, 68,
+    6,  25,  38,  58, 59,  65,  67, 68,
    78,  82,  87,  89,  91,  94,
    97, 101, 105, 110, 113, 131,
   134, 135, 136, 137, 139, 142,
@@ -44,8 +44,11 @@ const execute = () => {
       return acc;
     },[])
 
-    console.log(pokemons.map(it=>it.pokemon).join(' '))
-    const filtered = pokemons.filter(({ id }) => ids.indexOf(id) > -1)
+    const filtered =
+      pokemons
+        .filter(it => !it.remain.match(/^00/))
+        .filter(({ id }) => ids.indexOf(id) > -1);
+
     if (filtered.length > 0) {
       filtered.map(toText).map(it => {
         notify(it);

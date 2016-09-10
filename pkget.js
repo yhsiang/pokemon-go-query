@@ -27,22 +27,24 @@ export function query(location, distance) {
   })
   .then(res => {
       const { pk123 } = JSON.parse(res);
+      const now = moment().unix();
       const pokemons =
         pk123
           .map(({ d1, d3, d4, d5  }) => {
             let name = pokemon.getName(+d1, "zh-Hant");
             const latitude = +d4;
             const longitude = +d5;
-            const created = +d3 / 1000;
+            const vanish = +d3 / 1000;
+
             return {
-              uuid: `${created}-${d1}-${latitude}-${longitude}`,
-              id: d1,
+              uuid: `${vanish}-${d1}-${latitude}-${longitude}`,
+              id: +d1,
               lat: latitude,
               long: longitude,
               pokemon: name,
               type: 'pkget',
               dist: geolib.getDistance(location, { latitude, longitude }),
-              remain:  moment.utc(0).seconds(15 * 60 + created - moment().unix()).format('mm:ss'),
+              remain:  moment.utc(0).seconds(vanish - now).format('mm:ss')
             };
           })
           .sort((a, b) => a.dist - b.dist);

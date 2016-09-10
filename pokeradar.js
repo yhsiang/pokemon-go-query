@@ -30,7 +30,7 @@ export function query(location, distance) {
             }
             return {
               uuid: id,
-              id: pokemonId,
+              id: +pokemonId,
               lat: latitude,
               long: longitude,
               pokemon: name,

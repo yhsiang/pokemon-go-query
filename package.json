@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node --presets=es2015,stage-0 -- server.js",
-    "slack": "babel-node slack.js"
+    "start": "babel-node server.js",
+    "slack": "babel-node slack.js",
+    "prebuild": "rm -rf ./dist",
+    "build": "babel *.js -d dist"
   },
   "author": "Ly Cheng <lyforever62@hotmail.com>",
   "license": "MIT",

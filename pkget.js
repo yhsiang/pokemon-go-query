@@ -4,7 +4,7 @@ import { stringify } from "querystring";
 import pokemon from "pokemon";
 import moment from "moment";
 
-const PkgetURL = "https://pkget.com/pkm222.aspx"
+const PkgetURL = "https://pkget.com/pkm333.ashx"
 
 export function query(location, distance) {
   const [min, max] = geolib.getBoundsOfDistance(location, distance);
@@ -14,6 +14,7 @@ export function query(location, distance) {
     v3: max.longitude,
     v4: min.latitude,
     v5: min.longitude,
+    v6: 0,
   };
 
   console.log(`-- curl "${PkgetURL}?${stringify(params)}" -H "X-Requested-With: XMLHttpRequest" -H "Referer: https://pkget.com/" --`);
@@ -22,8 +23,10 @@ export function query(location, distance) {
     url: `${PkgetURL}?${stringify(params)}`,
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
-      'Referer': 'https://pkget.com/'
-    }
+      'Referer': 'https://pkget.com/',
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36',
+    },
+    gzip: true,
   })
   .then(res => {
       if (res.match(/^找/)) return [];
